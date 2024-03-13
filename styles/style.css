@@ -1,0 +1,28 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #2e2e2e;
+}
+body main h1 {
+  text-decoration: underline;
+  font-size: 50px;
+  text-align: center;
+  color: #b2b2b2;
+  margin-top: 100px;
+}
+body footer {
+  display: flex;
+  justify-content: space-around;
+}
+body footer p {
+  position: fixed;
+  bottom: 0;
+  color: #a0a0a0;
+  margin-bottom: 50px;
+}
+
+/*# sourceMappingURL=style.css.map */

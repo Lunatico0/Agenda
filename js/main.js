@@ -1,30 +1,3 @@
-const users = [];
-let option;
-
-do{
-    option = prompt("📙Bienvenido a la Agenda📙.\n\n1-➕Ingresar nuevo contacto➕.\n2-🖋️Editar contacto🖋️.\n3-🚫Eliminar contacto🚫.\n4-📓Mostrar lista de contactos📓.\n5-Salir.");
-    switch (option){
-        case "1":
-            agregarContacto();                                                      // Llama a la funcion para comenzar a agregar contactos
-            break;
-        case "2":
-            editarContacto();
-            break;
-        case "3":
-            break;
-        case "4":
-            mostrarContactos();                                                     // Llama a la funcion para mostrar contactos
-            break;
-        case "salir", "5":
-            alert("Gracias, vuelva pronto.")                                        // Termina el programa
-            break;
-        default:
-            alert("Opcion incorrecta. Gracias, vuelva pronto.");
-            break;
-    }
-} while (option.toLowerCase() !== "salir" && option !== "5");
-
-
 // Constructor de objetos
 
 function Usuario (nombre, apellido, edad, mail, nacionalidad){
@@ -34,7 +7,6 @@ function Usuario (nombre, apellido, edad, mail, nacionalidad){
     this.mail = mail;
     this.nacionalidad = nacionalidad;
 }
-
 
 //Agrega objetos al array
 
@@ -76,34 +48,6 @@ function agregarContacto() {
         }
     }
 }
-
-
-//Mustra cada objeto del array
-
-function mostrarContactos(mostrarTodos = true) {
-    if (users.length === 0) {
-        alert("La agenda está vacía");
-    } else {
-        if (mostrarTodos) {
-            for (const user of users) {
-                console.log(`El usuario: ${user.nombre} ${user.apellido} con ${user.edad} años, su nacionalidad es ${user.nacionalidad} y su e-mail es: ${user.mail}`);
-                alert(`El usuario: ${user.nombre} ${user.apellido} con ${user.edad} años, su nacionalidad es ${user.nacionalidad} y su e-mail es: ${user.mail}`);
-            }
-        } else {
-            // Solo mostrar el contacto solicitado
-            const buscado = prompt("Ingresa el nombre o apellido del contacto a mostrar");
-            const encontrado = users.find(user => user.nombre === buscado || user.apellido === buscado);
-            
-            if (encontrado) {
-                console.log(`El usuario: ${encontrado.nombre} ${encontrado.apellido} con ${encontrado.edad} años, su nacionalidad es ${encontrado.nacionalidad} y su e-mail es: ${encontrado.mail}`);
-                alert(`El usuario: ${encontrado.nombre} ${encontrado.apellido} con ${encontrado.edad} años, su nacionalidad es ${encontrado.nacionalidad} y su e-mail es: ${encontrado.mail}`);
-            } else {
-                alert("Contacto no encontrado");
-            }
-        }
-    }
-}
-
 
 //Edita un objeto dentro del array
 
@@ -188,3 +132,91 @@ function editarContacto() {
         }
     }
 }
+
+//Elimina un objeto del array
+
+function eliminarContacto(){
+    const mostrarTodos = confirm("¿Quieres mostrar todos los contactos antes de eliminar?");
+    mostrarContactos(mostrarTodos);
+
+    let buscado = prompt("Ingrese el nombre o apellido del contacto que desea eliminar");
+    let contactoEncontrado = null;
+
+    if (buscado.trim() === "") {
+        alert("Nombre o apellido no válido.");
+        return;
+    }
+    for (let i = 0; i < users.length; i++) {
+        const user = users[i];
+        if (user.nombre.toLowerCase() === buscado.toLowerCase() || user.apellido.toLowerCase() === buscado.toLowerCase()) {
+            contactoEncontrado = user;
+            console.log(`El usuario: ${contactoEncontrado.nombre} ${contactoEncontrado.apellido} con ${contactoEncontrado.edad} años, su nacionalidad es ${contactoEncontrado.nacionalidad} y su e-mail es: ${contactoEncontrado.mail}`);
+            alert(`El usuario: ${contactoEncontrado.nombre} ${contactoEncontrado.apellido} con ${contactoEncontrado.edad} años, su nacionalidad es ${contactoEncontrado.nacionalidad} y su e-mail es: ${contactoEncontrado.mail}`);
+            const confirmacion = confirm(`¿Estás seguro de que deseas eliminar el contacto ${contactoEncontrado.nombre} ${contactoEncontrado.apellido}?`);
+            if (confirmacion) {
+                users.splice(i, 1);                             // Eliminar el contacto del array
+                alert("Contacto eliminado exitosamente.");
+            } else {
+                alert("Eliminación cancelada.");
+            }
+            break;                                              // Se encontró el contacto, se termina el bucle
+        }
+    }
+    if (!contactoEncontrado) {
+        alert("Contacto no encontrado.");
+        return;
+    }
+}
+
+//Mustra cada objeto del array
+
+function mostrarContactos(mostrarTodos = true) {
+    if (users.length === 0) {
+        alert("La agenda está vacía");
+    } else {
+        if (mostrarTodos) {
+            for (const user of users) {
+                console.log(`El usuario: ${user.nombre} ${user.apellido} con ${user.edad} años, su nacionalidad es ${user.nacionalidad} y su e-mail es: ${user.mail}`);
+                alert(`El usuario: ${user.nombre} ${user.apellido} con ${user.edad} años, su nacionalidad es ${user.nacionalidad} y su e-mail es: ${user.mail}`);
+            }
+        } else {
+            // Solo mostrar el contacto solicitado
+            const buscado = prompt("Ingresa el nombre o apellido del contacto a mostrar");
+            const encontrado = users.find(user => user.nombre === buscado || user.apellido === buscado);
+            
+            if (encontrado) {
+                console.log(`El usuario: ${encontrado.nombre} ${encontrado.apellido} con ${encontrado.edad} años, su nacionalidad es ${encontrado.nacionalidad} y su e-mail es: ${encontrado.mail}`);
+                alert(`El usuario: ${encontrado.nombre} ${encontrado.apellido} con ${encontrado.edad} años, su nacionalidad es ${encontrado.nacionalidad} y su e-mail es: ${encontrado.mail}`);
+            } else {
+                alert("Contacto no encontrado");
+            }
+        }
+    }
+}
+
+const users = [];
+let option;
+
+do{
+    option = prompt("📙Bienvenido a la Agenda📙.\n\n1-➕Ingresar nuevo contacto➕.\n2-🖋️Editar contacto🖋️.\n3-🚫Eliminar contacto🚫.\n4-📓Mostrar lista de contactos📓.\n5-🚪Salir🚪.");
+    switch (option){
+        case "1":
+            agregarContacto();                                                      // Llama a la funcion para comenzar a agregar contactos
+            break;
+        case "2":
+            editarContacto();                                                       // Llama a la funciion para editar contactos
+            break;
+        case "3":
+            eliminarContacto();                                                     // Llama a la funciion para eliiminar contactos
+            break;
+        case "4":
+            mostrarContactos();                                                     // Llama a la funcion para mostrar contactos
+            break;
+        case "salir", "5":
+            alert("Gracias, vuelva pronto.")                                        // Termina el programa
+            break;
+        default:
+            alert("Opcion incorrecta. Gracias, vuelva pronto.");
+            break;
+    }
+} while (option.toLowerCase() !== "salir" && option !== "5");

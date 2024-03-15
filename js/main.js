@@ -1,6 +1,5 @@
 // Constructor de objetos
-
-function Usuario (nombre, apellido, edad, mail, nacionalidad){
+function Usuario(nombre, apellido, edad, mail, nacionalidad) {
     this.nombre = nombre;
     this.apellido = apellido;
     this.edad = edad;
@@ -9,39 +8,38 @@ function Usuario (nombre, apellido, edad, mail, nacionalidad){
 }
 
 //Agrega objetos al array
-
 function agregarContacto() {
     while (true) {
         let edad;
         let mail;
         let nombre = prompt("Ingrese el nombre del contacto").trim();
         let apellido = prompt("Ingrese el apellido del contacto").trim();         //Quita espacios al principio y al final
-        
+
         while (isNaN(edad)) {
             edad = parseInt(prompt("Ingrese la edad del contacto"));                // Comprobacion de la edad como número
         }
-        
+
         while (!mail || !mail.includes("@")) {                                      // Comprobacion del formato de correo electronico que incluya el @
             mail = prompt("Ingrese el correo electronico del contacto (debe contener '@')");
         }
-        
+
         let nacionalidad = prompt("Ingrese la nacionalidad del contacto").trim();
-        
+
         if (/^[a-z]/.test(nacionalidad)) {
             nacionalidad = nacionalidad.charAt(0).toUpperCase() + nacionalidad.slice(1);
         }
-        
+
         if (/^[a-z]/.test(nombre)) {                                                //"/^/" hace referencia al primer elemento de la string "[a-z]" representa cualquier letra minuscula
             nombre = nombre.charAt(0).toUpperCase() + nombre.slice(1);              // Convertir nombre a mayusculas si comienzan con minuscula
         }
-        
+
         if (/^[a-z]/.test(apellido)) {                                              //.test devuelve true o false segun /^[a-z]/ en la cadena entre parentesis
             apellido = apellido.charAt(0).toUpperCase() + apellido.slice(1);        // Convertir apellido a mayusculas si comienzan con minuscula
         }
 
         const nuevoUsuario = new Usuario(nombre, apellido, edad, mail, nacionalidad);
         users.push(nuevoUsuario);                                                   // Agrega el objeto al array
-        
+
         const continuar = prompt("¿Desea agregar otro contacto? (si/no)").toLowerCase();
         if (continuar !== "si") {
             break;                                                                  // Finaliza el bucle si el usuario no quiere agregar mas contactos
@@ -50,156 +48,158 @@ function agregarContacto() {
 }
 
 //Edita un objeto dentro del array
-
 function editarContacto() {
     const mostrarTodos = confirm("¿Quieres mostrar todos los contactos antes de editar?");
-    mostrarContactos(mostrarTodos);
+    let buscado;
 
-    let buscado = prompt("Ingrese el nombre o apellido del contacto que desea editar");
-    let contactoEncontrado = null;
+    if (mostrarTodos) {
+        mostrarContactos(mostrarTodos);
+    } else {
+        buscado = mostrarContactos(mostrarTodos);
+    }
 
-    if (buscado.trim() === "") {
-        alert("Nombre o apellido no válido.");
+    if (!buscado) {
+        alert("Contacto no encontrado.");
         return;
     }
 
-    for (const user of users) {
-        if (user.nombre.toLowerCase() === buscado.toLowerCase() || user.apellido.toLowerCase() === buscado.toLowerCase()) {
-            contactoEncontrado = user;
-            console.log(`El usuario: ${contactoEncontrado.nombre} ${contactoEncontrado.apellido} con ${contactoEncontrado.edad} años, su nacionalidad es ${contactoEncontrado.nacionalidad} y su e-mail es: ${contactoEncontrado.mail}`);
-            alert(`El usuario: ${contactoEncontrado.nombre} ${contactoEncontrado.apellido} con ${contactoEncontrado.edad} años, su nacionalidad es ${contactoEncontrado.nacionalidad} y su e-mail es: ${contactoEncontrado.mail}`);
-            const edit = prompt("Ingrese: nombre, apellido, edad, mail, nacionalidad o todos. Segun el campo que quiera editar");
-            switch (edit.toLowerCase().trim()){
-                case "nombre":
-                    contactoEncontrado.nombre = prompt("Ingrese el nuevo nombre del contacto").trim();
-                    if (/^[a-z]/.test(contactoEncontrado.nombre)) {
-                        contactoEncontrado.nombre = contactoEncontrado.nombre.charAt(0).toUpperCase() + contactoEncontrado.nombre.slice(1);
-                    }
-                    break;
-                case "apellido":
-                    contactoEncontrado.apellido = prompt("Ingrese el nuevo apellido del contacto").trim();
-                    if (/^[a-z]/.test(contactoEncontrado.apellido)) {
-                        contactoEncontrado.apellido = contactoEncontrado.apellido.charAt(0).toUpperCase() + contactoEncontrado.apellido.slice(1);
-                    }
-                    break;
-                case "edad":
-                    do{
-                        contactoEncontrado.edad = parseInt(prompt("Ingrese la nueva edad del contacto"));
-                    } while (isNaN(contactoEncontrado.edad))
-                    break;
-                case "mail":
-                    contactoEncontrado.mail = null;
-                    while (!mail || !mail.includes("@")) {
-                        contactoEncontrado.mail = prompt("Ingrese el nuevo correo electronico del contacto (debe contener '@')").trim();
-                    }
-                    break;
-                case "nacionalidad":
-                    contactoEncontrado.nacionalidad = prompt("Ingrese la nueva nacionalidad del contacto").trim();
-                    if (/^[a-z]/.test(contactoEncontrado.nacionalidad)) {
-                        contactoEncontrado.nacionalidad = contactoEncontrado.nacionalidad.charAt(0).toUpperCase() + contactoEncontrado.nacionalidad.slice(1);
-                    }
-                    break;
-                case "todos":
-                    contactoEncontrado.nombre = prompt("Ingrese el nuevo nombre del contacto").trim();
-                    if (/^[a-z]/.test(contactoEncontrado.nombre)) {
-                        contactoEncontrado.nombre = contactoEncontrado.nombre.charAt(0).toUpperCase() + contactoEncontrado.nombre.slice(1);
-                    }
-                    contactoEncontrado.apellido = prompt("Ingrese el nuevo apellido del contacto").trim();
-                    if (/^[a-z]/.test(contactoEncontrado.apellido)) {
-                        contactoEncontrado.apellido = contactoEncontrado.apellido.charAt(0).toUpperCase() + contactoEncontrado.apellido.slice(1);
-                    }
-                    do{
-                        contactoEncontrado.edad = parseInt(prompt("Ingrese la nueva edad del contacto"));
-                    } while (isNaN(contactoEncontrado.edad))
-                    contactoEncontrado.mail = null;
-                    while (!mail || !mail.includes("@")) {
-                        contactoEncontrado.mail = prompt("Ingrese el nuevo correo electronico del contacto (debe contener '@')").trim();
-                    }
-                    contactoEncontrado.nacionalidad = prompt("Ingrese la nueva nacionalidad del contacto").trim();
-                    if (/^[a-z]/.test(contactoEncontrado.nacionalidad)) {
-                        contactoEncontrado.nacionalidad = contactoEncontrado.nacionalidad.charAt(0).toUpperCase() + contactoEncontrado.nacionalidad.slice(1);
-                    }
-                    break;
-                default:
-                    alert("Opcion incorrecta. Gracias, vuelva pronto.");
-                    break;
-                break;
-            }
+    console.log(`El usuario: ${buscado.nombre} ${buscado.apellido} con ${buscado.edad} años, su nacionalidad es ${buscado.nacionalidad} y su e-mail es: ${buscado.mail}`);
+    alert(`El usuario: ${buscado.nombre} ${buscado.apellido} con ${buscado.edad} años, su nacionalidad es ${buscado.nacionalidad} y su e-mail es: ${buscado.mail}`);
+
+    if (buscado.length > 1) {
+        for (let i = 0; i < buscado.length; i++) {
+            console.log(`${i + 1}. ${buscado[i].nombre} ${buscado[i].apellido}`);
         }
-        if (!contactoEncontrado) {
-            alert("Contacto no encontrado.");
+        // Si hay múltiples coincidencias, permite al usuario seleccionar cuál editar
+        const seleccion = parseInt(prompt("Se encontraron múltiples coincidencias. Ingrese el número del contacto que desea editar:"));
+        if (isNaN(seleccion) || seleccion < 1 || seleccion > buscado.length) {
+            alert("Selección inválida.");
             return;
         }
+        buscado = buscado[seleccion - 1];
+    }
+
+    const edit = prompt("Ingrese: nombre, apellido, edad, mail, nacionalidad o todos. Según el campo que quiera editar");
+    let mail;
+    switch (edit.toLowerCase().trim()) {
+        case "nombre":
+            buscado.nombre = prompt("Ingrese el nuevo nombre del contacto").trim();
+            if (/^[a-z]/.test(buscado.nombre)) {
+                buscado.nombre = buscado.nombre.charAt(0).toUpperCase() + buscado.nombre.slice(1);
+            }
+            break;
+        case "apellido":
+            buscado.apellido = prompt("Ingrese el nuevo apellido del contacto").trim();
+            if (/^[a-z]/.test(buscado.apellido)) {
+                buscado.apellido = buscado.apellido.charAt(0).toUpperCase() + buscado.apellido.slice(1);
+            }
+            break;
+        case "edad":
+            do {
+                buscado.edad = parseInt(prompt("Ingrese la nueva edad del contacto"));
+            } while (isNaN(buscado.edad))
+            break;
+        case "mail":
+            while (!mail || !mail.includes("@")) {
+                mail = prompt("Ingrese el nuevo correo electrónico del contacto (debe contener '@')").trim();
+            }
+            buscado.mail = mail;
+            break;
+        case "nacionalidad":
+            buscado.nacionalidad = prompt("Ingrese la nueva nacionalidad del contacto").trim();
+            if (/^[a-z]/.test(buscado.nacionalidad)) {
+                buscado.nacionalidad = buscado.nacionalidad.charAt(0).toUpperCase() + buscado.nacionalidad.slice(1);
+            }
+            break;
+        case "todos":
+            buscado.nombre = prompt("Ingrese el nuevo nombre del contacto").trim();
+            if (/^[a-z]/.test(buscado.nombre)) {
+                buscado.nombre = buscado.nombre.charAt(0).toUpperCase() + buscado.nombre.slice(1);
+            }
+            buscado.apellido = prompt("Ingrese el nuevo apellido del contacto").trim();
+            if (/^[a-z]/.test(buscado.apellido)) {
+                buscado.apellido = buscado.apellido.charAt(0).toUpperCase() + buscado.apellido.slice(1);
+            }
+            do {
+                buscado.edad = parseInt(prompt("Ingrese la nueva edad del contacto"));
+            } while (isNaN(buscado.edad))
+            while (!mail || !mail.includes("@")) {
+                mail = prompt("Ingrese el nuevo correo electrónico del contacto (debe contener '@')").trim();
+            }
+            buscado.mail = mail;
+            buscado.nacionalidad = prompt("Ingrese la nueva nacionalidad del contacto").trim();
+            if (/^[a-z]/.test(buscado.nacionalidad)) {
+                buscado.nacionalidad = buscado.nacionalidad.charAt(0).toUpperCase() + buscado.nacionalidad.slice(1);
+            }
+            break;
+        default:
+            alert("Opción incorrecta. Gracias, vuelva pronto.");
+            break;
     }
 }
 
 //Elimina un objeto del array
-
-function eliminarContacto(){
+function eliminarContacto() {
     const mostrarTodos = confirm("¿Quieres mostrar todos los contactos antes de eliminar?");
-    mostrarContactos(mostrarTodos);
+    let buscado;
+    if (mostrarTodos) {
+        mostrarContactos(true);
+    } else {
+        const nombreOApellido = prompt("Ingresa el nombre o apellido del contacto");
+        buscado = buscarContacto(nombreOApellido);
+    }
 
-    let buscado = prompt("Ingrese el nombre o apellido del contacto que desea eliminar");
-    let contactoEncontrado = null;
-
-    if (buscado.trim() === "") {
+    if (!buscado) {
         alert("Nombre o apellido no válido.");
         return;
     }
-    for (let i = 0; i < users.length; i++) {
-        const user = users[i];
-        if (user.nombre.toLowerCase() === buscado.toLowerCase() || user.apellido.toLowerCase() === buscado.toLowerCase()) {
-            contactoEncontrado = user;
-            console.log(`El usuario: ${contactoEncontrado.nombre} ${contactoEncontrado.apellido} con ${contactoEncontrado.edad} años, su nacionalidad es ${contactoEncontrado.nacionalidad} y su e-mail es: ${contactoEncontrado.mail}`);
-            alert(`El usuario: ${contactoEncontrado.nombre} ${contactoEncontrado.apellido} con ${contactoEncontrado.edad} años, su nacionalidad es ${contactoEncontrado.nacionalidad} y su e-mail es: ${contactoEncontrado.mail}`);
-            const confirmacion = confirm(`¿Estás seguro de que deseas eliminar el contacto ${contactoEncontrado.nombre} ${contactoEncontrado.apellido}?`);
-            if (confirmacion) {
-                users.splice(i, 1);                             // Eliminar el contacto del array
-                alert("Contacto eliminado exitosamente.");
-            } else {
-                alert("Eliminación cancelada.");
-            }
-            break;                                              // Se encontró el contacto, se termina el bucle
-        }
-    }
-    if (!contactoEncontrado) {
-        alert("Contacto no encontrado.");
-        return;
+
+    const confirmacion = confirm(`¿Estás seguro de que deseas eliminar el contacto ${buscado.nombre} ${buscado.apellido}?`);
+    if (confirmacion) {
+        const indice = users.findIndex(user => user === buscado);
+        users.splice(indice, 1);
+        alert("Contacto eliminado exitosamente.");
+    } else {
+        alert("Eliminación cancelada.");
     }
 }
 
 //Mustra cada objeto del array
-
 function mostrarContactos(mostrarTodos = true) {
     if (users.length === 0) {
         alert("La agenda está vacía");
+        return null;
+    }
+
+    if (mostrarTodos) {
+        for (const user of users) {
+            console.log(`El usuario: ${user.nombre} ${user.apellido} con ${user.edad} años, su nacionalidad es ${user.nacionalidad} y su e-mail es: ${user.mail}`);
+            alert(`El usuario: ${user.nombre} ${user.apellido} con ${user.edad} años, su nacionalidad es ${user.nacionalidad} y su e-mail es: ${user.mail}`);
+        }
     } else {
-        if (mostrarTodos) {
-            for (const user of users) {
-                console.log(`El usuario: ${user.nombre} ${user.apellido} con ${user.edad} años, su nacionalidad es ${user.nacionalidad} y su e-mail es: ${user.mail}`);
-                alert(`El usuario: ${user.nombre} ${user.apellido} con ${user.edad} años, su nacionalidad es ${user.nacionalidad} y su e-mail es: ${user.mail}`);
-            }
+        const buscado = prompt("Ingresa el nombre o apellido del contacto");
+        const encontrados = buscarContacto(buscado);
+        if (encontrados.length === 0) {
+            alert("No se encontraron contactos con ese nombre o apellido.");
+            return null;
         } else {
-            // Solo mostrar el contacto solicitado
-            const buscado = prompt("Ingresa el nombre o apellido del contacto a mostrar");
-            const encontrado = users.find(user => user.nombre === buscado || user.apellido === buscado);
-            
-            if (encontrado) {
-                console.log(`El usuario: ${encontrado.nombre} ${encontrado.apellido} con ${encontrado.edad} años, su nacionalidad es ${encontrado.nacionalidad} y su e-mail es: ${encontrado.mail}`);
-                alert(`El usuario: ${encontrado.nombre} ${encontrado.apellido} con ${encontrado.edad} años, su nacionalidad es ${encontrado.nacionalidad} y su e-mail es: ${encontrado.mail}`);
-            } else {
-                alert("Contacto no encontrado");
-            }
+            return encontrados;
         }
     }
+}
+
+//Busca un objeto en el array
+function buscarContacto(buscado) {
+    const busqueda = buscado.toLowerCase();
+    return users.find(user => user.nombre.toLowerCase() === busqueda || user.apellido.toLowerCase() === busqueda);
 }
 
 const users = [];
 let option;
 
-do{
+do {
     option = prompt("📙Bienvenido a la Agenda📙.\n\n1-➕Ingresar nuevo contacto➕.\n2-🖋️Editar contacto🖋️.\n3-🚫Eliminar contacto🚫.\n4-📓Mostrar lista de contactos📓.\n5-🚪Salir🚪.");
-    switch (option){
+    switch (option) {
         case "1":
             agregarContacto();                                                      // Llama a la funcion para comenzar a agregar contactos
             break;
@@ -220,3 +220,20 @@ do{
             break;
     }
 } while (option.toLowerCase() !== "salir" && option !== "5");
+
+// let nuevoUsuario = new Usuario("Patricio", "Pittana", 25, "pittanapatricio@gmail.com", "Argentina");
+// users.push(nuevoUsuario)
+// nuevoUsuario = new Usuario("Carolina", "Pittana", 45, "capittana@gmail.com", "Argentina");
+// users.push(nuevoUsuario)
+// nuevoUsuario = new Usuario("Beltran", "Pittana", 38, "jorgepittana@gmail.com", "Argentina");
+// users.push(nuevoUsuario)
+// nuevoUsuario = new Usuario("Milagros", "Vergara", 23, "milagrosvergarabegnis@gmail.com", "Argentina");
+// users.push(nuevoUsuario)
+// nuevoUsuario = new Usuario("Brisa", "Vergara", 12, "brisavergara@gmail.com", "Argentina");
+// users.push(nuevoUsuario)
+// nuevoUsuario = new Usuario("Carlos", "Vergara", 65, "carlosvergara@gmail.com", "Argentina");
+// users.push(nuevoUsuario)
+// nuevoUsuario = new Usuario("Mario", "Cardoso", 65, "tmbc.logistica@gmail.com", "Argentina");
+// users.push(nuevoUsuario)
+// nuevoUsuario = new Usuario("Beltran", "Cardoso", 26, "bcproducciones@gmail.com", "Argentina");
+// users.push(nuevoUsuario)

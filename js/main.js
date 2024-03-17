@@ -15,12 +15,18 @@ function agregarContacto() {
         let nombre = prompt("Ingrese el nombre del contacto").trim();
         let apellido = prompt("Ingrese el apellido del contacto").trim();           //Quita espacios al principio y al final
 
-        do{                                                                         //Hacec una pequeña validacion de que el dato sea numerico, hasta que el dato no sea valido no va a salir del bucle
-            edad = parseInt(prompt("Ingrese la edad del contacto"));
-            if (edad >= 250){
-                alert("MATUSALEN!! Eres tu?");                                      //Si ingresa una edad mayor a 250 muestra el mensaje
-            }
-        } while (isNaN(edad) || edad >= 120 );
+        if (nombre.toLowerCase() === "matusalen"){
+            do{                                                                         //Hacec una pequeña validacion de que el dato sea numerico, hasta que el dato no sea valido no va a salir del bucle
+                edad = parseInt(prompt("MATUSALEN!! Eres tu? Ingrese la edad del contacto"));
+            } while (isNaN(edad) || edad < 250 );
+        } else {
+            do{                                                                         //Hacec una pequeña validacion de que el dato sea numerico, hasta que el dato no sea valido no va a salir del bucle
+                edad = parseInt(prompt("Ingrese la edad del contacto"));
+                if (edad >= 250){
+                    const matusalen = confirm("MATUSALEN!! Eres tu?");                                      //Si ingresa una edad mayor a 250 muestra el mensaje
+                }
+            } while (isNaN(edad) || edad >= 120 );
+        }
 
         while (!mail || !mail.includes("@")) {                                      // Comprobacion del formato de correo electronico que incluya el @
             mail = prompt("Ingrese el correo electronico del contacto (debe contener '@')");
@@ -102,7 +108,10 @@ function editarContacto() {
             do{                                                                     //Hacec una pequeña validacion de que el dato sea numerico, hasta que el dato no sea valido no va a salir del bucle
                 buscado.edad = parseInt(prompt("Ingrese la nueva edad del contacto"));
                 if (buscado.edad >= 250){
-                    alert("MATUSALEN!! Eres tu?");                                  //Si ingresa una edad mayor a 250 muestra el mensaje
+                    const matusalen = confirm("MATUSALEN!! Eres tu?");                                      //Si ingresa una edad mayor a 250 muestra el mensaje
+                        if(matusalen){
+                            return;
+                    }
                 }
             } while (isNaN(buscado.edad) || buscado.edad >= 120 );
             break;

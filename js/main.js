@@ -28,11 +28,11 @@ function agregarContacto() {
 
 
         if (nombre.toLowerCase() === "matusalen"){
-            do{                                                                     //Hacec una pequeña validacion de que el dato sea numerico, hasta que el dato no sea valido no va a salir del bucle
+            do{                                                                     //Hace una pequeña validacion de que el dato sea numerico, hasta que el dato no sea valido no va a salir del bucle
                 edad = parseInt(prompt("MATUSALEN!! Eres tu? Ingrese la edad del contacto"));
             } while (isNaN(edad) || edad < 250 );
         } else {
-            do{                                                                     //Hacec una pequeña validacion de que el dato sea numerico, hasta que el dato no sea valido no va a salir del bucle
+            do{                                                                     //Hace una pequeña validacion de que el dato sea numerico, hasta que el dato no sea valido no va a salir del bucle
                 edad = parseInt(prompt("Ingrese la edad del contacto"));
                 if (edad >= 250){
                     alert("MATUSALEN!! Eres tu?");                                  //Si ingresa una edad mayor a 250 muestra el mensaje
@@ -109,19 +109,31 @@ function editarContacto() {
     let mail;                                                                       //Captura en "edit" ue atributo es el que quiere editar
     switch (edit.toLowerCase().trim()) {                                            //Un switch que cada caso tiene el nombre de los atributos piosibles incluyendo "todos" antes capturado en "edit"
         case "nombre":                                                              //Captura el dato que tiene que ser asignado al atributo
-            buscado.nombre = prompt("Ingrese el nuevo nombre del contacto").trim(); //Con .trim() elimina los espacios al principio o al final
+        
+            // Validación para el nombre
+            do {
+                buscado.nombre = prompt("Ingrese el nuevo nombre del contacto").trim();               //Quita espacios al principio y al final
+            } while (buscado.nombre === "" || /^\s*$/.test(buscado.nombre));
+
             if (/^[a-z]/.test(buscado.nombre)) {                                    //"/^/" hace referencia al primer elemento de la string "[a-z]" representa cualquier letra minuscula
                 buscado.nombre = buscado.nombre.charAt(0).toUpperCase() + buscado.nombre.slice(1);
             }                                                                       //Si comienza con minuscula lo convierte a mayusculas
             break;
+        
         case "apellido":
-            buscado.apellido = prompt("Ingrese el nuevo apellido del contacto").trim();
+
+            // Validación para el nombre
+            do {
+                buscado.apellido = prompt("Ingrese el nuevo apellido del contacto").trim();               //Quita espacios al principio y al final
+            } while (buscado.apellido === "" || /^\s*$/.test(buscado.apellido));
+
             if (/^[a-z]/.test(buscado.apellido)) {
                 buscado.apellido = buscado.apellido.charAt(0).toUpperCase() + buscado.apellido.slice(1);
             }
             break;
+
         case "edad":
-            do{                                                                     //Hacec una pequeña validacion de que el dato sea numerico, hasta que el dato no sea valido no va a salir del bucle
+            do{                                                                     //Hace una pequeña validacion de que el dato sea numerico, hasta que el dato no sea valido no va a salir del bucle
                 buscado.edad = parseInt(prompt("Ingrese la nueva edad del contacto"));
                 if (buscado.edad >= 250){
                     const matusalen = confirm("MATUSALEN!! Eres tu?");                                      //Si ingresa una edad mayor a 250 muestra el mensaje
@@ -131,39 +143,64 @@ function editarContacto() {
                 }
             } while (isNaN(buscado.edad) || buscado.edad >= 120 );
             break;
+
         case "mail":
-            while (!mail || !mail.includes("@")) {                                  //Valida que el mail contenga "@"
-                mail = prompt("Ingrese el nuevo correo electrónico del contacto (debe contener '@')").trim();
-            }
+
+            // Validación para el correo electrónico
+            do {
+                mail = prompt("Ingrese el nuevo correo electronico del contacto (debe contener '@')");
+            } while (!mail || mail === "@" || !mail.includes("@"));                     // Repite el prompt si el correo está vacío, solo contiene "@" o no contiene "@"    
+
             buscado.mail = mail;
             break;
+
         case "nacionalidad":
-            buscado.nacionalidad = prompt("Ingrese la nueva nacionalidad del contacto").trim();
+
+            // Validación para la nacionalidad
+            do {
+                buscado.nacionalidad = prompt("Ingrese la nueva nacionalidad del contacto").trim();   // Repite el prompt si la nacionalidad está vacía o contiene solo espacios en blanco
+            } while (buscado.nacionalidad === "" || /^\s*$/.test(buscado.nacionalidad));
+
             if (/^[a-z]/.test(buscado.nacionalidad)) {
                 buscado.nacionalidad = buscado.nacionalidad.charAt(0).toUpperCase() + buscado.nacionalidad.slice(1);
             }
             break;
+
         case "todos":
-            buscado.nombre = prompt("Ingrese el nuevo nombre del contacto").trim();
+            do {
+                buscado.nombre = prompt("Ingrese el nuevo nombre del contacto").trim();               //Quita espacios al principio y al final
+            } while (buscado.nombre === "" || /^\s*$/.test(buscado.nombre));
+
             if (/^[a-z]/.test(buscado.nombre)) {
                 buscado.nombre = buscado.nombre.charAt(0).toUpperCase() + buscado.nombre.slice(1);
             }
-            buscado.apellido = prompt("Ingrese el nuevo apellido del contacto").trim();
+
+            do {
+                buscado.apellido = prompt("Ingrese el nuevo apellido del contacto").trim();               //Quita espacios al principio y al final
+            } while (buscado.apellido === "" || /^\s*$/.test(buscado.apellido));
+
             if (/^[a-z]/.test(buscado.apellido)) {
                 buscado.apellido = buscado.apellido.charAt(0).toUpperCase() + buscado.apellido.slice(1);
             }
+
             do {
                 buscado.edad = parseInt(prompt("Ingrese la nueva edad del contacto"));
             } while (isNaN(buscado.edad))
-            while (!mail || !mail.includes("@")) {
-                mail = prompt("Ingrese el nuevo correo electrónico del contacto (debe contener '@')").trim();
-            }
+
+            do {
+                mail = prompt("Ingrese el nuevo correo electronico del contacto (debe contener '@')");
+            } while (!mail || mail === "@" || !mail.includes("@"));                     // Repite el prompt si el correo está vacío, solo contiene "@" o no contiene "@"    
             buscado.mail = mail;
-            buscado.nacionalidad = prompt("Ingrese la nueva nacionalidad del contacto").trim();
+
+            do {
+                buscado.nacionalidad = prompt("Ingrese la nueva nacionalidad del contacto").trim();   // Repite el prompt si la nacionalidad está vacía o contiene solo espacios en blanco
+            } while (buscado.nacionalidad === "" || /^\s*$/.test(buscado.nacionalidad));
+
             if (/^[a-z]/.test(buscado.nacionalidad)) {
                 buscado.nacionalidad = buscado.nacionalidad.charAt(0).toUpperCase() + buscado.nacionalidad.slice(1);
             }
             break;
+
         default:
             alert("Opción incorrecta. Gracias, vuelva pronto.");
             break;

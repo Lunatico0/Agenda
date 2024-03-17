@@ -12,27 +12,43 @@ function agregarContacto() {
     while (true) {
         let edad;
         let mail;
-        let nombre = prompt("Ingrese el nombre del contacto").trim();
-        let apellido = prompt("Ingrese el apellido del contacto").trim();           //Quita espacios al principio y al final
+        let nombre;
+        let apellido;
+        let nacionalidad;
+
+        // Validación para el nombre
+        do {
+            nombre = prompt("Ingrese el nombre del contacto").trim();               //Quita espacios al principio y al final
+        } while (nombre === "" || /^\s*$/.test(nombre));                            // Repite el prompt si el nombre está vacío o contiene solo espacios en blanco
+
+        // Validación para el apellido
+        do {
+            apellido = prompt("Ingrese el apellido del contacto").trim();
+        } while (apellido === "" || /^\s*$/.test(apellido));                        // Repite el prompt si el apellido está vacío o contiene solo espacios en blanco
+
 
         if (nombre.toLowerCase() === "matusalen"){
-            do{                                                                         //Hacec una pequeña validacion de que el dato sea numerico, hasta que el dato no sea valido no va a salir del bucle
+            do{                                                                     //Hacec una pequeña validacion de que el dato sea numerico, hasta que el dato no sea valido no va a salir del bucle
                 edad = parseInt(prompt("MATUSALEN!! Eres tu? Ingrese la edad del contacto"));
             } while (isNaN(edad) || edad < 250 );
         } else {
-            do{                                                                         //Hacec una pequeña validacion de que el dato sea numerico, hasta que el dato no sea valido no va a salir del bucle
+            do{                                                                     //Hacec una pequeña validacion de que el dato sea numerico, hasta que el dato no sea valido no va a salir del bucle
                 edad = parseInt(prompt("Ingrese la edad del contacto"));
                 if (edad >= 250){
-                    const matusalen = confirm("MATUSALEN!! Eres tu?");                                      //Si ingresa una edad mayor a 250 muestra el mensaje
+                    alert("MATUSALEN!! Eres tu?");                                  //Si ingresa una edad mayor a 250 muestra el mensaje
                 }
             } while (isNaN(edad) || edad >= 120 );
         }
 
-        while (!mail || !mail.includes("@")) {                                      // Comprobacion del formato de correo electronico que incluya el @
+        // Validación para el correo electrónico
+        do {
             mail = prompt("Ingrese el correo electronico del contacto (debe contener '@')");
-        }
+        } while (!mail || mail === "@" || !mail.includes("@"));                     // Repite el prompt si el correo está vacío, solo contiene "@" o no contiene "@"
 
-        let nacionalidad = prompt("Ingrese la nacionalidad del contacto").trim();
+        // Validación para la nacionalidad
+        do {
+            nacionalidad = prompt("Ingrese la nacionalidad del contacto").trim();   // Repite el prompt si la nacionalidad está vacía o contiene solo espacios en blanco
+        } while (nacionalidad === "" || /^\s*$/.test(nacionalidad)); 
 
         if (/^[a-z]/.test(nacionalidad)) {
             nacionalidad = nacionalidad.charAt(0).toUpperCase() + nacionalidad.slice(1);

@@ -50,17 +50,11 @@ function agregarContacto() {
             nacionalidad = prompt("Ingrese la nacionalidad del contacto").trim();   // Repite el prompt si la nacionalidad está vacía o contiene solo espacios en blanco
         } while (nacionalidad === "" || /^\s*$/.test(nacionalidad)); 
 
-        if (/^[a-z]/.test(nacionalidad)) {
-            nacionalidad = nacionalidad.charAt(0).toUpperCase() + nacionalidad.slice(1);
-        }
+        nacionalidad = capitalizar(nacionalidad);
 
-        if (/^[a-z]/.test(nombre)) {                                                //"/^/" hace referencia al primer elemento de la string "[a-z]" representa cualquier letra minuscula
-            nombre = nombre.charAt(0).toUpperCase() + nombre.slice(1);              // Convertir nombre a mayusculas si comienzan con minuscula
-        }
-
-        if (/^[a-z]/.test(apellido)) {                                              //.test devuelve true o false segun /^[a-z]/ en la cadena entre parentesis
-            apellido = apellido.charAt(0).toUpperCase() + apellido.slice(1);        // Convertir apellido a mayusculas si comienzan con minuscula
-        }
+        nombre = capitalizar(nombre)
+       
+        apellido = capitalizar(apellido)
 
         const nuevoUsuario = new Usuario(nombre, apellido, edad, mail, nacionalidad);
         users.push(nuevoUsuario);                                                   // Agrega el objeto al array
@@ -115,9 +109,7 @@ function editarContacto() {
                 buscado.nombre = prompt("Ingrese el nuevo nombre del contacto").trim();               //Quita espacios al principio y al final
             } while (buscado.nombre === "" || /^\s*$/.test(buscado.nombre));
 
-            if (/^[a-z]/.test(buscado.nombre)) {                                    //"/^/" hace referencia al primer elemento de la string "[a-z]" representa cualquier letra minuscula
-                buscado.nombre = buscado.nombre.charAt(0).toUpperCase() + buscado.nombre.slice(1);
-            }                                                                       //Si comienza con minuscula lo convierte a mayusculas
+            buscado.nombre = capitalizar(buscado.nombre);
             break;
         
         case "apellido":
@@ -127,9 +119,7 @@ function editarContacto() {
                 buscado.apellido = prompt("Ingrese el nuevo apellido del contacto").trim();               //Quita espacios al principio y al final
             } while (buscado.apellido === "" || /^\s*$/.test(buscado.apellido));
 
-            if (/^[a-z]/.test(buscado.apellido)) {
-                buscado.apellido = buscado.apellido.charAt(0).toUpperCase() + buscado.apellido.slice(1);
-            }
+            buscado.apellido = capitalizar(buscado.apellido);
             break;
 
         case "edad":
@@ -161,9 +151,7 @@ function editarContacto() {
                 buscado.nacionalidad = prompt("Ingrese la nueva nacionalidad del contacto").trim();   // Repite el prompt si la nacionalidad está vacía o contiene solo espacios en blanco
             } while (buscado.nacionalidad === "" || /^\s*$/.test(buscado.nacionalidad));
 
-            if (/^[a-z]/.test(buscado.nacionalidad)) {
-                buscado.nacionalidad = buscado.nacionalidad.charAt(0).toUpperCase() + buscado.nacionalidad.slice(1);
-            }
+            buscado.nacionalidad = capitalizar(buscado.nacionalidad);
             break;
 
         case "todos":
@@ -171,17 +159,13 @@ function editarContacto() {
                 buscado.nombre = prompt("Ingrese el nuevo nombre del contacto").trim();               //Quita espacios al principio y al final
             } while (buscado.nombre === "" || /^\s*$/.test(buscado.nombre));
 
-            if (/^[a-z]/.test(buscado.nombre)) {
-                buscado.nombre = buscado.nombre.charAt(0).toUpperCase() + buscado.nombre.slice(1);
-            }
+            buscado.nombre = capitalizar(buscado.nombre);
 
             do {
                 buscado.apellido = prompt("Ingrese el nuevo apellido del contacto").trim();               //Quita espacios al principio y al final
             } while (buscado.apellido === "" || /^\s*$/.test(buscado.apellido));
 
-            if (/^[a-z]/.test(buscado.apellido)) {
-                buscado.apellido = buscado.apellido.charAt(0).toUpperCase() + buscado.apellido.slice(1);
-            }
+            buscado.apellido = capitalizar(buscado.apellido);
 
             do {
                 buscado.edad = parseInt(prompt("Ingrese la nueva edad del contacto"));
@@ -196,9 +180,7 @@ function editarContacto() {
                 buscado.nacionalidad = prompt("Ingrese la nueva nacionalidad del contacto").trim();   // Repite el prompt si la nacionalidad está vacía o contiene solo espacios en blanco
             } while (buscado.nacionalidad === "" || /^\s*$/.test(buscado.nacionalidad));
 
-            if (/^[a-z]/.test(buscado.nacionalidad)) {
-                buscado.nacionalidad = buscado.nacionalidad.charAt(0).toUpperCase() + buscado.nacionalidad.slice(1);
-            }
+            buscado.nacionalidad = capitalizar(buscado.nacionalidad);
             break;
 
         default:
@@ -258,6 +240,10 @@ function mostrarContactos(mostrarTodos = true) {
 
     if (mostrarTodos) {                                                             //Cuando se necesita mostrar todos los elementos de la agenda
         for (const user of users) {                                                 //con un for..of recorre el array mostrando en cada iteracion los datos de cada contacto
+            user.nombre = capitalizar(user.nombre)
+            user.apellido = capitalizar(user.nombre)
+            user.nacionalidad = capitalizar(user.nombre)
+
             console.log(`El usuario: ${user.nombre} ${user.apellido} con ${user.edad} años, su nacionalidad es ${user.nacionalidad} y su e-mail es: ${user.mail}`);
             alert(`El usuario: ${user.nombre} ${user.apellido} con ${user.edad} años, su nacionalidad es ${user.nacionalidad} y su e-mail es: ${user.mail}`);
         }
@@ -271,6 +257,11 @@ function mostrarContactos(mostrarTodos = true) {
             return encontrados;                                                     //En caso de hberlo encontrado lo retorna
         }
     }
+}
+
+//Capitalizar primera letra de la palabra ingresada
+function capitalizar(palabra) {                                                     //"/^/" hace referencia al primer elemento de la string "[a-z]" representa cualquier letra minuscula
+    return palabra.charAt(0).toUpperCase() + palabra.slice(1);                      // Convertir nombre a mayusculas si comienzan con minuscula
 }
 
 //Busca objetos en el array
